@@ -45,17 +45,24 @@ function HomePage() {
         <div>
             {/* header  */}
             <header>
-                <h5 className='d-flex  p-2  bg-warning justify-content-between align-items-center' >
-                    <span onClick={() => setReagainStore(!reagainStore)} >TheGoodGameTheory</span>
+                <h5 className='conatainer-fluid ' >
+                    <div className="row text-center bg-warning py-2  ">
 
-                    <form action="" onSubmit={(e) => {
-                        e.preventDefault()
-                        filtredData()
-                    }} >
-                        <input type="text" placeholder='Search' value={searchableVal} onChange={(e) => setSeachableVal(e.target.value)} />
+                        <div className="col-md-6 g-3 "><span onClick={() => setReagainStore(!reagainStore)} >TheGoodGameTheory</span>
+                        </div>
+                        <div className="col-md-6 g-3 "> <form action="" onSubmit={(e) => {
+                            e.preventDefault()
+                            filtredData()
+                        }} >
+                            <input type="text" className='bg-warning fw-bold rounded ' placeholder='Search' value={searchableVal} onChange={(e) => setSeachableVal(e.target.value)} />
 
-                        <button className='shadow rounded bg-primary text-danger' type="submit" >Search</button>
-                    </form>
+                            <button className='shadow rounded bg-primary text-danger' type="submit" >Search</button>
+                        </form></div>
+
+
+                    </div>
+
+
                 </h5>
             </header>
 
