@@ -1,0 +1,79 @@
+import React, { useEffect, useState } from 'react'
+import Card from './Card'
+
+function HomePage() {
+
+    const [searchableVal, setSeachableVal] = useState("")
+    const [list, setList] = useState([])
+    const [reagainStore, setReagainStore] = useState(false)
+
+
+    // fetching All Data from api using hooks
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await fetch("https://api.punkapi.com/v2/beers")
+            const res = await data.json()
+            setList(res)
+        }
+        fetchData()
+    }, [reagainStore])
+
+
+
+    // code for filter the item
+
+    const filtredData = async () => {
+        if (searchableVal == "") {
+            return;
+        }
+        const data = await fetch("https://api.punkapi.com/v2/beers")
+        const res = await data.json()
+        const filteredList = res.filter(item => {
+            const regexp = new RegExp(item.name, 'i')
+
+            function matches(text, partial) {
+                return text.toLowerCase().indexOf(partial.toLowerCase()) > -1;
+            }
+            return regexp.test(searchableVal) || matches(item.name, searchableVal)
+        }
+        )
+        setList(filteredList)
+    }
+
+    return (
+        <div>
+            {/* header  */}
+            <header>
+                <h5 className='d-flex  p-2  bg-warning justify-content-between align-items-center' >
+                    <span onClick={() => setReagainStore(!reagainStore)} >TheGoodGameTheory</span>
+
+                    <form action="" onSubmit={(e) => {
+                        e.preventDefault()
+                        filtredData()
+                    }} >
+                        <input type="text" placeholder='Search' value={searchableVal} onChange={(e) => setSeachableVal(e.target.value)} />
+
+                        <button className='shadow rounded bg-primary text-danger' type="submit" >Search</button>
+                    </form>
+                </h5>
+            </header>
+
+            {/* Adding Card Functionality using another Card whith the help of card */}
+
+            <div className="conatainer-fluid">
+                <div className="row">
+                    {
+                        list.map(item => <div className="col-md-3">
+                            <Card item={item} />
+                        </div>)
+                    }
+                </div>
+            </div>
+
+
+        </div>
+    )
+}
+
+export default HomePage
